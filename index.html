@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MEMORY GAME</title>
+    <link rel="stylesheet" href="./styles/index.min.css">
+    <link rel="stylesheet" href="./fonts/krungthep.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+    <script src="./scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="playground" data-tid="App">
+    <div class="container_starting container">
+        <img src="images/StartGame.png" srcset="images/StartGame@2x.png 2x" class="main-logo bounceInDown animated">
+        <h1 class="main-title fadeInLeft animated">Memory game</h1>
+        <button class="start-button button_light button_m fadeIn animated delayed" data-tid="NewGame-startGame">Начать игру</button>
+    </div>
+</div>
+<template id="card-template">
+    <div class="card-holder">
+        <input class="card__checker" type="checkbox" checked="">
+        <div class="card" data-tid="Card-flipped">
+            <div class="card__back"></div>
+            <img src="" class="card__front">
+        </div>
+    </div>
+</template>
+<div class="overlay overlay-off"></div>
+<script src="./scripts/index.min.js"></script>
+</body>
+</html>
