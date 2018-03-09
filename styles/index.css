@@ -187,6 +187,7 @@ html {
 }
 
 .card__front {
+    z-index: 200;
     transform: rotateY(180deg);
 }
 
