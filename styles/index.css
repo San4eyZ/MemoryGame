@@ -177,6 +177,9 @@ html {
 .card__front,
 .card__back {
     width: 100%;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
     backface-visibility: hidden;
 
     position: absolute;
