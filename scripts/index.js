@@ -4,13 +4,16 @@ let $startButton = $('.start-button');
 let $overlay = $('.overlay');
 let $cardTemplate = $('#card-template');
 
-const delay = 5000;
 const suits = ['C', 'D', 'H', 'S'];
 const types = ['0', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'J', 'K', 'Q'];
+const delay = 5000;
+const animationDuration = 1000;
 
-blockInteractions(1000);
+sounds.playMain();
+blockInteractions(animationDuration);
 
 $startButton.one('click', function () {
+    sounds.playClick();
     reAnimate($mainLogo, 'bounceInDown', 'flyOutUp');
     reAnimate($mainTitle, 'fadeInLeft', 'fadeOutLeft');
     reAnimate($startButton, 'fadeIn', 'fadeOut');
@@ -23,11 +26,13 @@ $startButton.one('click', function () {
 });
 
 function Game() {
+    let cardList = makeRandomCardList();
+
     this.firstPickCard = undefined;
     this.firstPickValue = undefined;
     this.rightGuesses = 0;
     this.points = 0;
-    this.board = this.createBoard(makeRandomCardList());
+    this.board = this.createBoard(cardList);
 }
 
 Game.prototype = {
@@ -53,6 +58,7 @@ Game.prototype = {
                 // this === div.card
                 // Фиксируем поворот карты чекбоксом
                 let $flipChecker = $(this).prev();
+
                 if (!$flipChecker.prop('checked')) {
                     $flipChecker.prop('checked', true).change();
 
@@ -90,6 +96,7 @@ Game.prototype = {
             .html('Начать заново');
 
         $tryAgain.one('click', function () {
+            sounds.playClick();
             new Game().initGame();
         });
 
@@ -111,6 +118,7 @@ Game.prototype = {
         if (this.firstPickValue === currentValue) {
             this.updatePoints(true);
             this.rightGuesses++;
+            sounds.playSuccess();
 
             setTimeout(function () {
                 $(firstPickedCard).remove();
@@ -119,20 +127,21 @@ Game.prototype = {
                 if (this.currentGameState() === 'completed') {
                     this.endGame();
                 }
-            }.bind(this), 1000);
+            }.bind(this), animationDuration);
         } else {
             this.updatePoints(false);
+            sounds.playWrong();
 
             setTimeout(function () {
                 $(firstPickedCard).trigger('restore');
                 $(currentCard).trigger('restore');
-            }.bind(this), 1000);
+            }.bind(this), animationDuration);
         }
-        blockInteractions(1000);
         this.resetPick();
     },
     endGame: function () {
         $(this.board).replaceWith(makeEndScreen(this.points));
+        sounds.playTada();
     },
     setPick: function (card, value) {
         this.firstPickCard = card;
@@ -184,17 +193,18 @@ function makeEndScreen(points) {
         .html('Ещё раз');
 
     $restartButton.one('click', function () {
+        sounds.playClick();
         $(this).prop('disabled', true);
         reAnimate($endImage, 'bounceInDown', 'flyOutUp');
         reAnimate($endText, 'bounceInDown', 'fadeOutLeft');
         reAnimate($restartButton, 'fadeIn', 'fadeOut');
         $restartButton.removeClass('delayed');
-        $restartButton.one('animationend', function () {
+        // После reAnimate событие animationend не срабатывает в firefox, поэтому setTimeout
+        setTimeout(function () {
             $restartButton.remove();
 
-            blockInteractions(delay + 500);
             new Game().initGame();
-        })
+        }, animationDuration);
     });
 
     $endScreen.append($endImage, $endText, $restartButton);

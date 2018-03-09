@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MEMORY GAME</title>
-    <link rel="stylesheet" href="./styles/index.min.css">
+    <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./fonts/krungthep.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
     <script src="./scripts/jquery-3.3.1.min.js"></script>
@@ -13,8 +13,17 @@
     <div class="container_starting container">
         <img src="images/StartGame.png" srcset="images/StartGame@2x.png 2x" class="main-logo bounceInDown animated">
         <h1 class="main-title fadeInLeft animated">Memory game</h1>
-        <button class="start-button button_light button_m fadeIn animated delayed" data-tid="NewGame-startGame">Начать игру</button>
+        <button class="start-button button_light button_m fadeIn animated delayed" data-tid="NewGame-startGame">Начать
+            игру
+        </button>
     </div>
+</div>
+<div id="audio-holder">
+    <audio src="sounds/main.mp3" id="audio-main" loop></audio>
+    <audio src="sounds/click.mp3" id="audio-click"></audio>
+    <audio src="sounds/tada.mp3" id="audio-tada"></audio>
+    <audio src="sounds/wrong.mp3" id="audio-wrong"></audio>
+    <audio src="sounds/success.mp3" id="audio-success"></audio>
 </div>
 <template id="card-template">
     <div class="card-holder">
@@ -26,6 +35,7 @@
     </div>
 </template>
 <div class="overlay overlay-off"></div>
-<script src="./scripts/index.min.js"></script>
+<script src="./scripts/sound-control.js"></script>
+<script src="./scripts/index.js"></script>
 </body>
 </html>
